@@ -388,7 +388,7 @@ class HomePageContent extends StatelessWidget {
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
             child: Image.asset(
                 imagePath, // Pastikan path ini benar
-                height: 50,
+                height: 70,
                 width: double.infinity,
                 fit: BoxFit.cover
             ),
