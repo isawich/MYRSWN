@@ -172,12 +172,12 @@ class HomePageContent extends StatelessWidget {
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 // Dipertahankan agar tampilan card berita proporsional
-                childAspectRatio: 0.72,
+                childAspectRatio: 0.85,
               ),
               itemCount: 4,
               itemBuilder: (context, index) {
                 // Asumsi path gambar berita
-                String imgPath = (index % 2 == 0) ? 'assets/images/berita1.png' : 'assets/images/berita2.png';
+                String imgPath = (index % 2 == 0) ? 'assets/images/berita1.jpg' : 'assets/images/berita2.jpg';
                 return _buildNewsCard(imgPath, index);
               },
             ),
