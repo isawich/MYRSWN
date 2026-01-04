@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       vsync: this,
       duration: const Duration(milliseconds: 700),
     );
-    _slideAnimation = Tween<double>(begin: 0.0, end: -0.2).animate(
+    _slideAnimation = Tween<double>(begin: 0.0, end: -0.08).animate(
       CurvedAnimation(parent: _slideController, curve: Curves.easeOut),
     );
 
@@ -106,7 +106,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                   fit: BoxFit.contain,
                 ),
               ),
-              const SizedBox(height: 0),
+              const SizedBox(height: 6),
               // Animasi fade-in teks
               FadeTransition(
                 opacity: _fadeTextAnimation,
@@ -136,7 +136,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                         ],
                       ),
                     ),
-                    const SizedBox(height: 0),
+                    const SizedBox(height: 6),
                     Text(
                       "RSUD K.R.M.T WONGSONEGORO",
                       style: GoogleFonts.poppins(

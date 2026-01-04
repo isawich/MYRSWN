@@ -99,7 +99,7 @@ class HomePageContent extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(16),
                 boxShadow: AppStyles.cardShadow,
                 // PERBAIKAN FOKUS: Menyesuaikan border dengan warna Doctor's Schedule
                 // Menggunakan secondaryPink dengan opasitas agar tipis dan sesuai gambar
@@ -119,10 +119,11 @@ class HomePageContent extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 5),
 
             // 4. MENU GRID (Online Reg, Schedule, Ambulance, Other)
             GridView.count(
+              padding: EdgeInsets.only(top: 24, bottom: 12),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               crossAxisCount: 2,
@@ -148,10 +149,10 @@ class HomePageContent extends StatelessWidget {
                 _buildSeeMoreLink(), // Menggunakan fungsi yang sama untuk konsistensi
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 15),
             // APPOINTMENT CARD
             _buildAppointmentCard(),
-            const SizedBox(height: 12),
+            const SizedBox(height: 20),
 
             // 6. RSWN NEWS HEADER
             Row(
@@ -161,10 +162,11 @@ class HomePageContent extends StatelessWidget {
                 _buildSeeMoreLink(),
               ],
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 12),
 
             // 7. NEWS GRID
             GridView.builder(
+              padding: EdgeInsets.only(top: 12, bottom: 24),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -172,16 +174,16 @@ class HomePageContent extends StatelessWidget {
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 // Dipertahankan agar tampilan card berita proporsional
-                childAspectRatio: 0.85,
+                childAspectRatio: 1,
               ),
               itemCount: 4,
               itemBuilder: (context, index) {
                 // Asumsi path gambar berita
                 String imgPath = (index % 2 == 0) ? 'assets/images/berita1.jpg' : 'assets/images/berita2.jpg';
-                return _buildNewsCard(imgPath, index);
+                return _buildNewsCard(imgPath, index);  
               },
             ),
-            const SizedBox(height: 14),
+            _buildHorizontalLine(),
 
             // 8. FAQ HEADER
             Row(
@@ -190,7 +192,7 @@ class HomePageContent extends StatelessWidget {
                 Text("FAQ", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryMaroon)),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
 
             // 9. FAQ ITEMS
             _buildFaqItem("Kapan jam layanan RSD K.R.M.T Wongsonegoro?"),
@@ -236,6 +238,37 @@ class HomePageContent extends StatelessWidget {
   }
 
   // --- WIDGET BUILDERS ---
+
+  Widget _buildHorizontalLine({bool showSeeMore = true}) {
+    return Container(
+      margin: const EdgeInsets.only(top: 12, bottom: 24),
+        child: Row(
+          children: [
+            // Garis
+            Expanded(
+              child: Container(
+                height: 2,
+                color: AppColors.primaryMaroon.withOpacity(0.5),
+              ),
+            ),
+
+            if (showSeeMore) ...[
+              const SizedBox(width: 8),
+
+              Text(
+                "See More",
+                style: GoogleFonts.poppins(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.primaryMaroon,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ],
+          ],
+        ),
+      );
+  }
 
   Widget _buildSeeMoreLink() {
     return Text(
@@ -388,30 +421,30 @@ class HomePageContent extends StatelessWidget {
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
             child: Image.asset(
                 imagePath, // Pastikan path ini benar
-                height: 70,
+                height: 58, // <- Turun dari 70
                 width: double.infinity,
                 fit: BoxFit.cover
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 12),
+            padding: const EdgeInsets.fromLTRB(10, 8, 10, 8), // <- Lebih rapat
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(color: AppColors.accentOrange, borderRadius: BorderRadius.circular(5)),
-                  child: Text(index % 2 == 0 ? "15 June 2024" : "27 Dec 2022", style: GoogleFonts.poppins(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w500)),
-                ),
+                  child: Text(index % 2 == 0 ? "15 June 2024" : "27 Dec 2022", style: GoogleFonts.poppins(fontSize: 8.5, color: Colors.white, fontWeight: FontWeight.w500)),
+                ), // kecil sedikit jadi 8.5
                 const SizedBox(height: 8),
                 Text(
                   "RSUD KRMT Wongsonegoro Semarang Bakal Miliki Gedung Pelayanan Kanker Terpadu",
-                  maxLines: 4,
+                  maxLines: 4, // dari 4 jadi 3
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.poppins(fontSize: 11.5, fontWeight: FontWeight.w700, color: AppColors.primaryMaroon, height: 1.3),
+                  style: GoogleFonts.poppins(fontSize: 11.5, fontWeight: FontWeight.w700, color: AppColors.primaryMaroon, height: 1.25),
                 ),
-                const SizedBox(height: 10),
-                Text("Read Now", style: GoogleFonts.poppins(fontSize: 11, color: AppColors.secondaryPink, fontWeight: FontWeight.w600, decoration: TextDecoration.underline)),
+                const SizedBox(height: 7),
+                Text("Read Now", style: GoogleFonts.poppins(fontSize: 9, color: AppColors.secondaryPink, fontWeight: FontWeight.w600, decoration: TextDecoration.underline)),
               ],
             ),
           ),
