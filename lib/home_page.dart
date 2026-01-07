@@ -508,9 +508,11 @@ class CustomBottomNavBar extends StatelessWidget {
         // Background Shape Maroon
         ClipPath(
           // PERBAIKAN: Menggunakan BottomNavCurveClipper
-          clipper: BottomNavCurveClipper(),
+          clipper: BottomNavCurveClipper(
+            currentIndex: currentIndex,
+          ),
           child: Container(
-            height: 90,
+            height: 95,
             color: AppColors.primaryMaroon,
           ),
         ),
@@ -539,41 +541,69 @@ class CustomBottomNavBar extends StatelessWidget {
   Widget _buildNavItem(IconData icon, String label, int index) {
     bool isSelected = currentIndex == index;
 
-    final iconColor = isSelected ? AppColors.primaryMaroon : AppColors.accentOrange;
-
-    Widget labelWidget = Text(label, style: GoogleFonts.poppins(fontSize: 10, color: AppColors.accentOrange));
+    final iconColor =
+        isSelected ? AppColors.primaryMaroon : AppColors.accentOrange;
 
     Widget content;
 
     if (isSelected) {
-      // Tombol Aktif (Lingkaran Orange dengan Ikon Maroon)
-      content = Transform.translate(
-        // PERBAIKAN: Geser ke atas lebih banyak
-        offset: const Offset(0, -30),
-        child: Container(
-          width: 60, // PERBAIKAN: Ukuran lingkaran lebih besar
-          height: 60, // PERBAIKAN: Ukuran lingkaran lebih besar
-          decoration: BoxDecoration(
-              color: AppColors.accentOrange,
-              // PERBAIKAN: Menggunakan bentuk lingkaran penuh
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 8, offset: const Offset(0, 4))
-              ]
+      content = Stack(
+        alignment: Alignment.topCenter,
+        clipBehavior: Clip.none,
+        children: [
+          // 🔵 TEKS (tetap di posisi NORMAL)
+          Positioned(
+            bottom: 8, // sejajar dengan item lain
+            child: Text(
+              label,
+              style: GoogleFonts.poppins(
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+                color: AppColors.accentOrange,
+              ),
+            ),
           ),
-          child: Icon(icon, color: AppColors.primaryMaroon, size: 28),
-        ),
+
+          // 🟠 IKON NAIK KE CEKUNGAN (tidak memengaruhi layout)
+          Positioned(
+            top: -38,
+            child: Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: AppColors.accentOrange,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Icon(
+                icon,
+                color: AppColors.primaryMaroon,
+                size: 28,
+              ),
+            ),
+          ),
+        ],
       );
     } else {
-      // Tombol Tidak Aktif (Ikon Orange dengan Teks di bawah)
+      // ⚪ ITEM TIDAK AKTIF
       content = Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, color: iconColor, size: 28),
           const SizedBox(height: 2),
-          // Teks di bawah ikon non-aktif berwarna orange
-          Text(label, style: GoogleFonts.poppins(fontSize: 10, color: AppColors.accentOrange)),
+          Text(
+            label,
+            style: GoogleFonts.poppins(
+              fontSize: 10,
+              color: AppColors.accentOrange,
+            ),
+          ),
         ],
       );
     }
@@ -584,9 +614,7 @@ class CustomBottomNavBar extends StatelessWidget {
       child: SizedBox(
         width: 80,
         height: 90,
-        child: Center(
-          child: content,
-        ),
+        child: Center(child: content),
       ),
     );
   }
@@ -594,38 +622,64 @@ class CustomBottomNavBar extends StatelessWidget {
 
 // Clipper untuk bentuk melengkung navbar yang disesuaikan
 class BottomNavCurveClipper extends CustomClipper<Path> {
+  final int currentIndex;
+  final int itemCount;
+
+  BottomNavCurveClipper({
+    required this.currentIndex,
+    this.itemCount = 4,
+  });
+
   @override
   Path getClip(Size size) {
+    const double circleRadius = 30;
+    const double gap = 6;                // jarak cekungan ↔ lingkaran
+    const double notchDepth = circleRadius - 6; // dangkal tapi pas
+    const double notchWidth = 80;
+    const double notchCenterY = 34;       // posisi cekungan
+
+    final double itemWidth = size.width / itemCount;
+    final double centerX = itemWidth * currentIndex + itemWidth / 2;
+
+    final double startX = centerX - notchWidth / 2;
+    final double endX = centerX + notchWidth / 2;
+    final double bottomY = notchCenterY + notchDepth;
+
     Path path = Path();
 
-    // Titik awal
-    path.moveTo(0, 20);
+    path.moveTo(0, notchCenterY);
+    path.lineTo(startX, notchCenterY);
 
-    // Bagian melengkung di kiri
-    path.lineTo(size.width * 0.35, 20);
-    path.quadraticBezierTo(size.width * 0.40, 20, size.width * 0.40, 0); // Kurva pertama ke titik atas tengah
-
-    // Titik paling atas di tengah (di atas tombol home)
+    // ⬇️ turun mengikuti lingkaran
     path.cubicTo(
-      size.width * 0.40, -10, // Kontrol 1 (naik)
-      size.width * 0.60, -10, // Kontrol 2 (naik)
-      size.width * 0.60, 0,   // Titik tertinggi di tengah
+      startX + notchWidth * 0.25,
+      notchCenterY,
+      centerX - circleRadius,
+      bottomY,
+      centerX,
+      bottomY,
     );
 
-    // Bagian melengkung di kanan
-    path.quadraticBezierTo(size.width * 0.60, 20, size.width * 0.65, 20); // Kurva kedua kembali ke garis lurus
+    // ⬆️ naik kembali
+    path.cubicTo(
+      centerX + circleRadius,
+      bottomY,
+      endX - notchWidth * 0.25,
+      notchCenterY,
+      endX,
+      notchCenterY,
+    );
 
-    // Garis lurus ke kanan
-    path.lineTo(size.width, 20);
-
-    // Bagian bawah
+    path.lineTo(size.width, notchCenterY);
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
-
     path.close();
+
     return path;
   }
 
   @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+  bool shouldReclip(covariant BottomNavCurveClipper oldClipper) {
+    return oldClipper.currentIndex != currentIndex;
+  }
 }
