@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'main.dart';
-import 'home_page.dart'; // Diperlukan untuk navigasi ke MainScreen
+import 'log_in_page.dart'; // Diperlukan untuk navigasi ke MainScreen
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -10,7 +10,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
   late AnimationController _slideController;
   late Animation<double> _slideAnimation;
   late AnimationController _fadeTextController;
@@ -26,15 +27,22 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       vsync: this,
       duration: const Duration(milliseconds: 700),
     );
-    _slideAnimation = Tween<double>(begin: 0.0, end: -0.08).animate(
-      CurvedAnimation(parent: _slideController, curve: Curves.easeOut),
-    );
+
+    // PERBAIKAN: Nilai end diperkecil dari -0.08 ke -0.035
+    // agar logo tidak naik terlalu jauh, sehingga jarak dengan teks tetap dekat.
+    _slideAnimation = Tween<double>(
+      begin: 0.0,
+      end: -0.035,
+    ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
 
     _fadeTextController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
     );
-    _fadeTextAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_fadeTextController);
+    _fadeTextAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_fadeTextController);
 
     _startSequence();
   }
@@ -51,19 +59,22 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     await Future.delayed(const Duration(seconds: 2));
 
     // Mulai fade-out seluruh layar
-    setState(() {
-      _exitFade = true;
-    });
+    if (mounted) {
+      setState(() {
+        _exitFade = true;
+      });
+    }
 
     // Tunggu fade-out selesai
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 800));
 
-    // Navigasi ke Home Page
+    // Navigasi ke Main Screen
     if (mounted) {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => const MainScreen(),
+          // UBAH DARI MainScreen() MENJADI LoginPage()
+          pageBuilder: (_, __, ___) => const LoginPage(),
           transitionDuration: Duration.zero,
         ),
       );
@@ -79,7 +90,6 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    // Menggunakan AnimatedOpacity untuk fade-out seluruh layar
     return Scaffold(
       backgroundColor: Colors.white,
       body: AnimatedOpacity(
@@ -89,24 +99,31 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Animasi geser ke atas
+              // Animasi geser logo ke atas
               AnimatedBuilder(
                 animation: _slideAnimation,
                 builder: (context, child) {
                   return Transform.translate(
-                    offset: Offset(0, _slideAnimation.value * MediaQuery.of(context).size.height),
+                    offset: Offset(
+                      0,
+                      _slideAnimation.value *
+                          MediaQuery.of(context).size.height,
+                    ),
                     child: child,
                   );
                 },
                 child: Image.asset(
-                  // Pastikan path ini benar
                   'assets/images/logo_only.png',
                   width: 100,
                   height: 100,
                   fit: BoxFit.contain,
                 ),
               ),
-              const SizedBox(height: 6),
+
+              // PERBAIKAN: Jarak statis diatur ke 10.
+              // Dikombinasikan dengan animasi geser, jarak visual akhir akan menjadi +/- 15.
+              const SizedBox(height: 10),
+
               // Animasi fade-in teks
               FadeTransition(
                 opacity: _fadeTextAnimation,

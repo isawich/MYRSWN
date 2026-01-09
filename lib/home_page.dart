@@ -4,6 +4,8 @@ import 'main.dart';
 import 'queue.dart';
 import 'profile.dart';
 import 'notification.dart';
+import 'all_services_page.dart';
+import 'appointments.dart';
 
 // --- MAIN SCREEN (Scaffold Wrapper) ---
 class MainScreen extends StatefulWidget {
@@ -67,8 +69,10 @@ class HomePageContent extends StatelessWidget {
                   'assets/images/logo_rswn.png',
                   height: 30,
                   fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => 
-                      const Text("LOGO", style: TextStyle(fontWeight: FontWeight.bold)),
+                  errorBuilder: (context, error, stackTrace) => const Text(
+                    "LOGO",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
 
                 // Tombol Notifikasi (Hanya satu dan bisa diklik)
@@ -76,14 +80,16 @@ class HomePageContent extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                   icon: const Icon(
-                    Icons.notifications_outlined, 
-                    color: AppColors.primaryMaroon, 
-                    size: 28
+                    Icons.notifications_outlined,
+                    color: AppColors.primaryMaroon,
+                    size: 28,
                   ),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const NotificationPage()),
+                      MaterialPageRoute(
+                        builder: (context) => const NotificationPage(),
+                      ),
                     );
                   },
                 ),
@@ -98,18 +104,18 @@ class HomePageContent extends StatelessWidget {
                   TextSpan(
                     text: "Hello, ",
                     style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.accentOrange
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.accentOrange,
                     ),
                   ),
                   TextSpan(
                     // PERBAIKAN: Menggunakan nama dari gambar
                     text: "Sucipto Krispi",
                     style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primaryMaroon
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryMaroon,
                     ),
                   ),
                 ],
@@ -118,7 +124,11 @@ class HomePageContent extends StatelessWidget {
             const SizedBox(height: 0),
             Text(
               "How can we help today?",
-              style: GoogleFonts.poppins(fontSize: 15, color: AppColors.secondaryPink, fontWeight: FontWeight.w500),
+              style: GoogleFonts.poppins(
+                fontSize: 15,
+                color: AppColors.secondaryPink,
+                fontWeight: FontWeight.w500,
+              ),
             ),
             const SizedBox(height: 18),
 
@@ -130,19 +140,30 @@ class HomePageContent extends StatelessWidget {
                 boxShadow: AppStyles.cardShadow,
                 // PERBAIKAN FOKUS: Menyesuaikan border dengan warna Doctor's Schedule
                 // Menggunakan secondaryPink dengan opasitas agar tipis dan sesuai gambar
-                border: Border.all(color: AppColors.secondaryPink.withOpacity(0.8), width: 1.5),
+                border: Border.all(
+                  color: AppColors.secondaryPink.withOpacity(0.8),
+                  width: 1.5,
+                ),
               ),
               child: TextField(
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
                   hintText: "Search",
                   // PERBAIKAN FOKUS: Warna hint disesuaikan menjadi warna gelap/pink
-                  hintStyle: GoogleFonts.poppins(color: AppColors.secondaryPink),
+                  hintStyle: GoogleFonts.poppins(
+                    color: AppColors.secondaryPink,
+                  ),
                   // PERBAIKAN FOKUS: Warna ikon prefix disesuaikan menjadi warna gelap/pink
-                  prefixIcon: Icon(Icons.search, color: AppColors.secondaryPink),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: AppColors.secondaryPink,
+                  ),
                   border: InputBorder.none,
                   isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 20,
+                  ),
                 ),
               ),
             ),
@@ -159,10 +180,38 @@ class HomePageContent extends StatelessWidget {
               mainAxisSpacing: 15,
               crossAxisSpacing: 15,
               children: [
-                _buildMenuItem(Icons.format_list_bulleted, "Online\nRegistration", AppColors.menuOrangeBg, AppColors.accentOrange), // Icon disesuaikan
-                _buildMenuItem(Icons.person, "Doctor's\nSchedule", AppColors.menuPinkBg, AppColors.primaryMaroon),
-                _buildMenuItem(Icons.phone_in_talk, "Call an\nAmbulance", AppColors.menuRedBg, Colors.redAccent), // Icon disesuaikan
-                _buildMenuItem(Icons.grid_view_rounded, "Other\nMenus", AppColors.menuGreenBg, Colors.green),
+                _buildMenuItem(
+                  Icons.format_list_bulleted,
+                  "Online\nRegistration",
+                  AppColors.menuOrangeBg,
+                  AppColors.accentOrange,
+                ), // Icon disesuaikan
+                _buildMenuItem(
+                  Icons.person,
+                  "Doctor's\nSchedule",
+                  AppColors.menuPinkBg,
+                  AppColors.primaryMaroon,
+                ),
+                _buildMenuItem(
+                  Icons.phone_in_talk,
+                  "Call an\nAmbulance",
+                  AppColors.menuRedBg,
+                  Colors.redAccent,
+                ), // Icon disesuaikan
+                _buildMenuItem(
+                  Icons.grid_view_rounded,
+                  "Other\nMenus",
+                  AppColors.menuGreenBg,
+                  Colors.green,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AllServicesPage(),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
             const SizedBox(height: 10),
@@ -171,8 +220,14 @@ class HomePageContent extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Upcoming Appointments",
-                    style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryMaroon)),
+                Text(
+                  "Upcoming Appointments",
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryMaroon,
+                  ),
+                ),
                 _buildSeeMoreLink(), // Menggunakan fungsi yang sama untuk konsistensi
               ],
             ),
@@ -185,7 +240,14 @@ class HomePageContent extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("RSWN News", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryMaroon)),
+                Text(
+                  "RSWN News",
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryMaroon,
+                  ),
+                ),
                 _buildSeeMoreLink(),
               ],
             ),
@@ -206,8 +268,10 @@ class HomePageContent extends StatelessWidget {
               itemCount: 4,
               itemBuilder: (context, index) {
                 // Asumsi path gambar berita
-                String imgPath = (index % 2 == 0) ? 'assets/images/berita1.jpg' : 'assets/images/berita2.jpg';
-                return _buildNewsCard(imgPath, index);  
+                String imgPath = (index % 2 == 0)
+                    ? 'assets/images/berita1.jpg'
+                    : 'assets/images/berita2.jpg';
+                return _buildNewsCard(imgPath, index);
               },
             ),
             _buildHorizontalLine(),
@@ -216,7 +280,14 @@ class HomePageContent extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("FAQ", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryMaroon)),
+                Text(
+                  "FAQ",
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryMaroon,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 8),
@@ -234,14 +305,24 @@ class HomePageContent extends StatelessWidget {
               children: [
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 18,
+                      horizontal: 20,
+                    ),
                     decoration: BoxDecoration(
                       // Warna Latar Belakang disesuaikan (menuOrangeBg)
                       color: AppColors.menuOrangeBg,
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: AppStyles.cardShadow,
                     ),
-                    child: Text("Any Question?", style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: AppColors.primaryMaroon, fontSize: 13)),
+                    child: Text(
+                      "Any Question?",
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryMaroon,
+                        fontSize: 13,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -250,12 +331,23 @@ class HomePageContent extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.accentOrange,
                     foregroundColor: AppColors.primaryMaroon,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                     elevation: 0,
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 15,
+                    ),
                   ),
-                  child: Text("Contact Us", style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 14)),
-                )
+                  child: Text(
+                    "Contact Us",
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
               ],
             ),
           ],
@@ -269,32 +361,32 @@ class HomePageContent extends StatelessWidget {
   Widget _buildHorizontalLine({bool showSeeMore = true}) {
     return Container(
       margin: const EdgeInsets.only(top: 12, bottom: 24),
-        child: Row(
-          children: [
-            // Garis
-            Expanded(
-              child: Container(
-                height: 2,
-                color: AppColors.primaryMaroon.withOpacity(0.5),
+      child: Row(
+        children: [
+          // Garis
+          Expanded(
+            child: Container(
+              height: 2,
+              color: AppColors.primaryMaroon.withOpacity(0.5),
+            ),
+          ),
+
+          if (showSeeMore) ...[
+            const SizedBox(width: 8),
+
+            Text(
+              "See More",
+              style: GoogleFonts.poppins(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: AppColors.primaryMaroon,
+                decoration: TextDecoration.underline,
               ),
             ),
-
-            if (showSeeMore) ...[
-              const SizedBox(width: 8),
-
-              Text(
-                "See More",
-                style: GoogleFonts.poppins(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primaryMaroon,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ],
           ],
-        ),
-      );
+        ],
+      ),
+    );
   }
 
   Widget _buildSeeMoreLink() {
@@ -312,43 +404,50 @@ class HomePageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(IconData icon, String label, Color bg, Color iconColor) {
-    return Container(
-      // PERBAIKAN: Menambahkan border tipis seperti di gambar
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        // PERBAIKAN FOKUS: Border disesuaikan dengan warna ikon (iconColor)
-        border: Border.all(color: iconColor.withOpacity(0.5), width: 1.5),
-        boxShadow: AppStyles.cardShadow,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: bg,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, color: iconColor, size: 22),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              label,
-              // PERBAIKAN FOKUS: Font diperbesar dan warna teks disesuaikan dengan iconColor
-              style: GoogleFonts.poppins(
-                  fontSize: 14.5, // Ukuran font diperbesar
-                  fontWeight: FontWeight.w700,
-                  color: iconColor, // Warna teks mengikuti warna ikon
-                  height: 1.2
+  // Tambahkan parameter VoidCallback? onTap di akhir
+  Widget _buildMenuItem(
+    IconData icon,
+    String label,
+    Color bg,
+    Color iconColor, {
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap, // Menjalankan fungsi klik jika ada
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: iconColor.withOpacity(0.5), width: 1.5),
+          boxShadow: AppStyles.cardShadow,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: bg,
+                borderRadius: BorderRadius.circular(12),
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+              child: Icon(icon, color: iconColor, size: 22),
             ),
-          ),
-        ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                label,
+                style: GoogleFonts.poppins(
+                  fontSize: 14.5,
+                  fontWeight: FontWeight.w700,
+                  color: iconColor,
+                  height: 1.2,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -379,9 +478,24 @@ class HomePageContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Text MON
-                Text("MON", style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: AppColors.primaryMaroon, fontSize: 20)),
+                Text(
+                  "MON",
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryMaroon,
+                    fontSize: 20,
+                  ),
+                ),
                 // Text 27
-                Text("27", style: GoogleFonts.poppins(fontSize: 38, fontWeight: FontWeight.bold, color: AppColors.primaryMaroon, height: 1)),
+                Text(
+                  "27",
+                  style: GoogleFonts.poppins(
+                    fontSize: 38,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryMaroon,
+                    height: 1,
+                  ),
+                ),
               ],
             ),
           ),
@@ -401,27 +515,67 @@ class HomePageContent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Fisiotherapy
-                  Text("Fisiotherapy", style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.primaryMaroon)),
+                  Text(
+                    "Fisiotherapy",
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: AppColors.primaryMaroon,
+                    ),
+                  ),
                   const SizedBox(height: 2),
                   // Doctor Name
-                  Text("dr. Yanto Kopling, S.KFR", style: GoogleFonts.poppins(fontSize: 12.5, color: AppColors.accentOrange, fontWeight: FontWeight.w600)),
+                  Text(
+                    "dr. Yanto Kopling, S.KFR",
+                    style: GoogleFonts.poppins(
+                      fontSize: 12.5,
+                      color: AppColors.accentOrange,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   const SizedBox(height: 8),
                   // Location
                   Row(
                     children: [
-                      const Icon(Icons.location_on_outlined, size: 14, color: AppColors.primaryMaroon),
+                      const Icon(
+                        Icons.location_on_outlined,
+                        size: 14,
+                        color: AppColors.primaryMaroon,
+                      ),
                       const SizedBox(width: 6),
                       // Font size dikecilkan agar teks lokasi/waktu bisa muat
-                      Expanded(child: Text("Klinik Rehabillitas Medik, RSWN", style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 11, color: AppColors.primaryMaroon), maxLines: 1, overflow: TextOverflow.ellipsis)),
+                      Expanded(
+                        child: Text(
+                          "Klinik Rehabillitas Medik, RSWN",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 11,
+                            color: AppColors.primaryMaroon,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 4),
                   // Time
                   Row(
                     children: [
-                      const Icon(Icons.access_time, size: 14, color: AppColors.primaryMaroon),
+                      const Icon(
+                        Icons.access_time,
+                        size: 14,
+                        color: AppColors.primaryMaroon,
+                      ),
                       const SizedBox(width: 6),
-                      Text("09.30 - 10.30 WIB", style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 11, color: AppColors.primaryMaroon)),
+                      Text(
+                        "09.30 - 10.30 WIB",
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 11,
+                          color: AppColors.primaryMaroon,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -447,10 +601,10 @@ class HomePageContent extends StatelessWidget {
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
             child: Image.asset(
-                imagePath, // Pastikan path ini benar
-                height: 58, // <- Turun dari 70
-                width: double.infinity,
-                fit: BoxFit.cover
+              imagePath, // Pastikan path ini benar
+              height: 58, // <- Turun dari 70
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
           ),
           Padding(
@@ -459,19 +613,45 @@ class HomePageContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                  decoration: BoxDecoration(color: AppColors.accentOrange, borderRadius: BorderRadius.circular(5)),
-                  child: Text(index % 2 == 0 ? "15 June 2024" : "27 Dec 2022", style: GoogleFonts.poppins(fontSize: 8.5, color: Colors.white, fontWeight: FontWeight.w500)),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.accentOrange,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Text(
+                    index % 2 == 0 ? "15 June 2024" : "27 Dec 2022",
+                    style: GoogleFonts.poppins(
+                      fontSize: 8.5,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ), // kecil sedikit jadi 8.5
                 const SizedBox(height: 8),
                 Text(
                   "RSUD KRMT Wongsonegoro Semarang Bakal Miliki Gedung Pelayanan Kanker Terpadu",
                   maxLines: 4, // dari 4 jadi 3
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.poppins(fontSize: 11.5, fontWeight: FontWeight.w700, color: AppColors.primaryMaroon, height: 1.25),
+                  style: GoogleFonts.poppins(
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primaryMaroon,
+                    height: 1.25,
+                  ),
                 ),
                 const SizedBox(height: 7),
-                Text("Read Now", style: GoogleFonts.poppins(fontSize: 9, color: AppColors.secondaryPink, fontWeight: FontWeight.w600, decoration: TextDecoration.underline)),
+                Text(
+                  "Read Now",
+                  style: GoogleFonts.poppins(
+                    fontSize: 9,
+                    color: AppColors.secondaryPink,
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
               ],
             ),
           ),
@@ -487,7 +667,10 @@ class HomePageContent extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         // PERBAIKAN: Border tipis orange/pink
-        border: Border.all(color: AppColors.accentOrange.withOpacity(0.7), width: 1),
+        border: Border.all(
+          color: AppColors.accentOrange.withOpacity(0.7),
+          width: 1,
+        ),
         boxShadow: AppStyles.cardShadow,
       ),
       child: ClipRRect(
@@ -497,16 +680,29 @@ class HomePageContent extends StatelessWidget {
           data: ThemeData().copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
             // PERBAIKAN: Mengatur vertical padding agar lebih rapat
-            tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            tilePadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 4,
+            ),
             childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             iconColor: AppColors.primaryMaroon,
             collapsedIconColor: AppColors.primaryMaroon,
-            title: Text(question, style: GoogleFonts.poppins(fontSize: 12.5, color: AppColors.primaryMaroon, fontWeight: FontWeight.w600)),
+            title: Text(
+              question,
+              style: GoogleFonts.poppins(
+                fontSize: 12.5,
+                color: AppColors.primaryMaroon,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             children: [
               Text(
                 "Informasi detail mengenai ${question.toLowerCase()} dapat dilihat di website resmi atau menghubungi call center.",
-                style: GoogleFonts.poppins(fontSize: 11.5, color: AppColors.textDark),
-              )
+                style: GoogleFonts.poppins(
+                  fontSize: 11.5,
+                  color: AppColors.textDark,
+                ),
+              ),
             ],
           ),
         ),
@@ -535,13 +731,8 @@ class CustomBottomNavBar extends StatelessWidget {
         // Background Shape Maroon
         ClipPath(
           // PERBAIKAN: Menggunakan BottomNavCurveClipper
-          clipper: BottomNavCurveClipper(
-            currentIndex: currentIndex,
-          ),
-          child: Container(
-            height: 95,
-            color: AppColors.primaryMaroon,
-          ),
+          clipper: BottomNavCurveClipper(currentIndex: currentIndex),
+          child: Container(height: 95, color: AppColors.primaryMaroon),
         ),
         // Icons Row
         SizedBox(
@@ -568,8 +759,9 @@ class CustomBottomNavBar extends StatelessWidget {
   Widget _buildNavItem(IconData icon, String label, int index) {
     bool isSelected = currentIndex == index;
 
-    final iconColor =
-        isSelected ? AppColors.primaryMaroon : AppColors.accentOrange;
+    final iconColor = isSelected
+        ? AppColors.primaryMaroon
+        : AppColors.accentOrange;
 
     Widget content;
 
@@ -608,11 +800,7 @@ class CustomBottomNavBar extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Icon(
-                icon,
-                color: AppColors.primaryMaroon,
-                size: 28,
-              ),
+              child: Icon(icon, color: AppColors.primaryMaroon, size: 28),
             ),
           ),
         ],
@@ -638,11 +826,7 @@ class CustomBottomNavBar extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap(index),
       behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        width: 80,
-        height: 90,
-        child: Center(child: content),
-      ),
+      child: SizedBox(width: 80, height: 90, child: Center(child: content)),
     );
   }
 }
@@ -652,18 +836,15 @@ class BottomNavCurveClipper extends CustomClipper<Path> {
   final int currentIndex;
   final int itemCount;
 
-  BottomNavCurveClipper({
-    required this.currentIndex,
-    this.itemCount = 4,
-  });
+  BottomNavCurveClipper({required this.currentIndex, this.itemCount = 4});
 
   @override
   Path getClip(Size size) {
     const double circleRadius = 30;
-    const double gap = 6;                // jarak cekungan ↔ lingkaran
+    const double gap = 6; // jarak cekungan ↔ lingkaran
     const double notchDepth = circleRadius - 6; // dangkal tapi pas
     const double notchWidth = 80;
-    const double notchCenterY = 34;       // posisi cekungan
+    const double notchCenterY = 34; // posisi cekungan
 
     final double itemWidth = size.width / itemCount;
     final double centerX = itemWidth * currentIndex + itemWidth / 2;
@@ -708,19 +889,5 @@ class BottomNavCurveClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(covariant BottomNavCurveClipper oldClipper) {
     return oldClipper.currentIndex != currentIndex;
-  }
-}
-
-class AppointmentPage extends StatelessWidget {
-  const AppointmentPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        "Appointment Page (Under Development)",
-        style: TextStyle(fontSize: 18),
-      ),
-    );
   }
 }

@@ -51,14 +51,13 @@ class QueuePage extends StatelessWidget {
     );
   }
 
-
   // ================= HEADER =================
   Widget _header() {
     return Text(
       "Hospital Queue",
       style: GoogleFonts.poppins(
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
+        fontSize: 30,
+        fontWeight: FontWeight.w600,
         color: AppColors.accentOrange,
       ),
     );
@@ -72,10 +71,7 @@ class QueuePage extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(26),
-        border: Border.all(
-          color: AppColors.primaryMaroon,
-          width: 1.2,
-        ),
+        border: Border.all(color: AppColors.primaryMaroon, width: 1.2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,7 +127,6 @@ class QueuePage extends StatelessWidget {
     );
   }
 
-
   // ================= HELPERS =================
   Widget _sectionTitle(String title) {
     return Center(
@@ -165,9 +160,7 @@ class QueuePage extends StatelessWidget {
           Expanded(
             child: Text(
               value,
-              style: GoogleFonts.poppins(
-                color: AppColors.primaryMaroon,
-              ),
+              style: GoogleFonts.poppins(color: AppColors.primaryMaroon),
             ),
           ),
         ],

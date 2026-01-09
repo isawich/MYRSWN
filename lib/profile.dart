@@ -17,11 +17,7 @@ class ProfilePage extends StatelessWidget {
         bottom: 120,
       ),
       child: Column(
-        children: [
-          _header(),
-          const SizedBox(height: 25),
-          _profileMainCard(),
-        ],
+        children: [_header(), const SizedBox(height: 25), _profileMainCard()],
       ),
     );
   }
@@ -35,20 +31,15 @@ class ProfilePage extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFFFFCC80),
-            Color(0xFFE57373),
-          ],
+          colors: [Color(0xFFFFCC80), Color(0xFFE57373)],
         ),
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(40),
-        ),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(40)),
       ),
       child: Text(
         "My Profile",
         textAlign: TextAlign.center,
         style: GoogleFonts.poppins(
-          fontSize: 22,
+          fontSize: 30,
           fontWeight: FontWeight.bold,
           color: AppColors.primaryMaroon,
         ),
@@ -91,11 +82,7 @@ class ProfilePage extends StatelessWidget {
               _menuItem(icon: Icons.settings, text: "Settings"),
               _menuItem(icon: Icons.lock, text: "Change Password"),
               _menuItem(icon: Icons.help_outline, text: "Help & Feedback"),
-              _menuItem(
-                icon: Icons.logout,
-                text: "Log out",
-                isLogout: true,
-              ),
+              _menuItem(icon: Icons.logout, text: "Log out", isLogout: true),
             ],
           ),
         ),
@@ -110,10 +97,7 @@ class ProfilePage extends StatelessWidget {
       height: 84,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(
-          color: AppColors.primaryMaroon,
-          width: 2,
-        ),
+        border: Border.all(color: AppColors.primaryMaroon, width: 2),
         image: const DecorationImage(
           image: AssetImage('assets/images/sucipto_krispi.jpg'),
           fit: BoxFit.cover,
@@ -132,10 +116,7 @@ class ProfilePage extends StatelessWidget {
       ),
       child: Text(
         "No. CM 12345678910",
-        style: GoogleFonts.poppins(
-          fontSize: 12,
-          color: AppColors.accentOrange,
-        ),
+        style: GoogleFonts.poppins(fontSize: 12, color: AppColors.accentOrange),
       ),
     );
   }
