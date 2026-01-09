@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'main.dart';
+import 'queue.dart';
+import 'profile.dart';
+import 'notification.dart';
 
 // --- MAIN SCREEN (Scaffold Wrapper) ---
 class MainScreen extends StatefulWidget {
@@ -14,12 +17,19 @@ class _MainScreenState extends State<MainScreen> {
   // Index 0 = Home (default)
   int _currentIndex = 0;
 
+  final List<Widget> _pages = const [
+    HomePageContent(),
+    QueuePage(),
+    AppointmentPage(),
+    ProfilePage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       // Konten halaman utama
-      body: const HomePageContent(),
+      body: _pages[_currentIndex],
       // Bottom Nav Bar kustom
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: _currentIndex,
@@ -54,12 +64,29 @@ class HomePageContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
-                  'assets/images/logo_rswn.png', // Pastikan path ini benar
+                  'assets/images/logo_rswn.png',
                   height: 30,
                   fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => 
+                      const Text("LOGO", style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
 
-                const Icon(Icons.notifications_outlined, color: AppColors.primaryMaroon, size: 28),
+                // Tombol Notifikasi (Hanya satu dan bisa diklik)
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  icon: const Icon(
+                    Icons.notifications_outlined, 
+                    color: AppColors.primaryMaroon, 
+                    size: 28
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const NotificationPage()),
+                    );
+                  },
+                ),
               ],
             ),
             const SizedBox(height: 18),
@@ -681,5 +708,19 @@ class BottomNavCurveClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(covariant BottomNavCurveClipper oldClipper) {
     return oldClipper.currentIndex != currentIndex;
+  }
+}
+
+class AppointmentPage extends StatelessWidget {
+  const AppointmentPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+        "Appointment Page (Under Development)",
+        style: TextStyle(fontSize: 18),
+      ),
+    );
   }
 }
