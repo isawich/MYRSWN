@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'main.dart';
 import 'home_page.dart';
+import 'appcolors.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,7 +11,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // Switcher untuk ganti tampilan antara Sign In dan Sign Up
   bool isSignInView = true;
 
   @override
@@ -24,14 +23,16 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              // --- Bagian Header Logo (Gambar 3) ---
+              // --- Header Logo ---
               Center(
                 child: Column(
                   children: [
+                    // Jika gambar belum ada di folder assets, ganti sementara dengan Icon
                     Image.asset(
                       'assets/images/logo_rswn.png',
                       width: 80,
                       height: 80,
+                      errorBuilder: (context, error, stackTrace) => Icon(Icons.local_hospital, size: 80, color: AppColors.primaryMaroon),
                     ),
                     const SizedBox(height: 15),
                     RichText(
@@ -71,7 +72,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 50),
 
-              // Judul Halaman (SIGN IN / SIGN UP)
               Text(
                 isSignInView ? "SIGN IN" : "SIGN UP",
                 style: GoogleFonts.poppins(
@@ -131,21 +131,15 @@ class _LoginPageState extends State<LoginPage> {
                 height: 55,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigasi ke Home Page
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const MainScreen(),
-                      ),
+                      MaterialPageRoute(builder: (context) => const MainScreen()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.accentOrange,
-                    shape: RoundedRectanglePlatform.isAndroid
-                        ? RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          )
-                        : StadiumBorder(),
+                    // PERBAIKAN: Gunakan StadiumBorder() saja agar simpel
+                    shape: const StadiumBorder(),
                     elevation: 0,
                   ),
                   child: Text(
@@ -161,13 +155,10 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 25),
 
-              // --- PEMBATAS / OR CONTINUE WITH (Hanya di Sign In) ---
               if (isSignInView) ...[
                 Row(
                   children: [
-                    const Expanded(
-                      child: Divider(thickness: 1, color: Colors.grey),
-                    ),
+                    const Expanded(child: Divider(thickness: 1, color: Colors.grey)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
@@ -178,25 +169,15 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    const Expanded(
-                      child: Divider(thickness: 1, color: Colors.grey),
-                    ),
+                    const Expanded(child: Divider(thickness: 1, color: Colors.grey)),
                   ],
                 ),
                 const SizedBox(height: 20),
                 Row(
                   children: [
-                    _buildSocialButton(
-                      "Google",
-                      Icons.g_mobiledata,
-                      const Color(0xFFF09A31),
-                    ),
+                    _buildSocialButton("Google", Icons.g_mobiledata, const Color(0xFFF09A31)),
                     const SizedBox(width: 15),
-                    _buildSocialButton(
-                      "Phone Number",
-                      Icons.phone_android,
-                      const Color(0xFFF09A31),
-                    ),
+                    _buildSocialButton("Phone", Icons.phone_android, const Color(0xFFF09A31)),
                   ],
                 ),
               ],
@@ -208,16 +189,11 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    isSignInView
-                        ? "Don't have an account? "
-                        : "Already have an account? ",
-                    style: GoogleFonts.poppins(
-                      color: AppColors.secondaryPink,
-                      fontSize: 13,
-                    ),
+                    isSignInView ? "Don't have an account? " : "Already have an account? ",
+                    style: GoogleFonts.poppins(color: AppColors.secondaryPink, fontSize: 13),
                   ),
                   GestureDetector(
-                    onPressed: () {
+                    onTap: () {
                       setState(() {
                         isSignInView = !isSignInView;
                       });
@@ -242,11 +218,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildTextField({
-    required String label,
-    required String hint,
-    bool isPassword = false,
-  }) {
+  Widget _buildTextField({required String label, required String hint, bool isPassword = false}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -263,27 +235,15 @@ class _LoginPageState extends State<LoginPage> {
           obscureText: isPassword,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: GoogleFonts.poppins(
-              color: Colors.grey.shade400,
-              fontSize: 13,
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 16,
-            ),
+            hintStyle: GoogleFonts.poppins(color: Colors.grey.shade400, fontSize: 13),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
-              borderSide: const BorderSide(
-                color: AppColors.accentOrange,
-                width: 1.5,
-              ),
+              borderSide: const BorderSide(color: AppColors.accentOrange, width: 1.5),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
-              borderSide: const BorderSide(
-                color: AppColors.primaryMaroon,
-                width: 2,
-              ),
+              borderSide: const BorderSide(color: AppColors.primaryMaroon, width: 2),
             ),
           ),
         ),
