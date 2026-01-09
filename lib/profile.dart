@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'main.dart';
+import 'log_in_page.dart'; // Pastikan file ini ada
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -17,7 +18,11 @@ class ProfilePage extends StatelessWidget {
         bottom: 120,
       ),
       child: Column(
-        children: [_header(), const SizedBox(height: 25), _profileMainCard()],
+        children: [
+          _header(),
+          const SizedBox(height: 25),
+          _profileMainCard(context), // Mengirim context ke card utama
+        ],
       ),
     );
   }
@@ -48,11 +53,11 @@ class ProfilePage extends StatelessWidget {
   }
 
   // ================= MAIN PROFILE CARD =================
-  Widget _profileMainCard() {
+  Widget _profileMainCard(BuildContext context) {
     return Transform.translate(
       offset: const Offset(0, -70),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 18),
         child: Container(
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 22),
           decoration: BoxDecoration(
@@ -76,13 +81,26 @@ class ProfilePage extends StatelessWidget {
               _cmBadge(),
               const SizedBox(height: 16),
 
-              // ===== MENU ITEMS (MASUK CARD BESAR) =====
-              _menuItem(icon: Icons.edit, text: "Edit Profile"),
-              _menuItem(icon: Icons.description, text: "Lab Tests & Reports"),
-              _menuItem(icon: Icons.settings, text: "Settings"),
-              _menuItem(icon: Icons.lock, text: "Change Password"),
-              _menuItem(icon: Icons.help_outline, text: "Help & Feedback"),
-              _menuItem(icon: Icons.logout, text: "Log out", isLogout: true),
+              // ===== MENU ITEMS =====
+              _menuItem(context, icon: Icons.edit, text: "Edit Profile"),
+              _menuItem(
+                context,
+                icon: Icons.description,
+                text: "Lab Tests & Reports",
+              ),
+              _menuItem(context, icon: Icons.settings, text: "Settings"),
+              _menuItem(context, icon: Icons.lock, text: "Change Password"),
+              _menuItem(
+                context,
+                icon: Icons.help_outline,
+                text: "Help & Feedback",
+              ),
+              _menuItem(
+                context,
+                icon: Icons.logout,
+                text: "Log out",
+                isLogout: true,
+              ),
             ],
           ),
         ),
@@ -122,36 +140,51 @@ class ProfilePage extends StatelessWidget {
   }
 
   // ================= MENU ITEM =================
-  Widget _menuItem({
+  Widget _menuItem(
+    BuildContext context, {
     required IconData icon,
     required String text,
     bool isLogout = false,
   }) {
     final color = isLogout ? Colors.red : AppColors.primaryMaroon;
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: color),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: color),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Text(
-              text,
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w500,
-                color: color,
+    return GestureDetector(
+      onTap: () {
+        if (isLogout) {
+          // Navigasi ke LogInPage dan menghapus semua route sebelumnya
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+            (route) => false,
+          );
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: color.withOpacity(0.5),
+          ), // Border dibuat agak soft
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: color),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text(
+                text,
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w500,
+                  color: color,
+                ),
               ),
             ),
-          ),
-          Icon(Icons.chevron_right, color: color),
-        ],
+            Icon(Icons.chevron_right, color: color),
+          ],
+        ),
       ),
     );
   }
