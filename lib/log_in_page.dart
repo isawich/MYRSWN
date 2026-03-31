@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// 1. Pastikan import ini merujuk ke file yang benar
 import 'appcolors.dart';
 import 'home_page.dart';
 
@@ -25,21 +24,25 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               const SizedBox(height: 30),
-              // --- Header Logo ---
+
+              // --- HEADER LOGO ---
               Center(
                 child: Column(
                   children: [
                     Image.asset(
                       'assets/images/logo_rswn.png',
-                      width: 200,
+                      width: 180, // sedikit diperkecil supaya lebih ringan
                       fit: BoxFit.contain,
+                      gaplessPlayback: true,
                       errorBuilder: (context, error, stackTrace) => Icon(
                         Icons.local_hospital,
                         size: 150,
                         color: AppColors.primaryMaroon,
                       ),
                     ),
-                    const SizedBox(height: 13),
+
+                    const SizedBox(height: 10),
+
                     RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
@@ -63,7 +66,9 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ),
+
                     const SizedBox(height: 2),
+
                     Text(
                       "RSUD K.R.M.T WONGSONEGORO",
                       textAlign: TextAlign.center,
@@ -90,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 45),
 
-              // --- FORM FIELDS ---
+              // --- FORM ---
               if (!isSignInView) ...[
                 _buildTextField(
                   label: "Full Name",
@@ -98,8 +103,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
               ],
+
               _buildTextField(label: "Email", hint: "Enter your email"),
+
               const SizedBox(height: 20),
+
               _buildTextField(
                 label: "Password",
                 hint: isSignInView ? "Enter your password" : "Create password",
@@ -126,14 +134,12 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 35),
 
-              // --- TOMBOL UTAMA ---
+              // --- BUTTON ---
               SizedBox(
                 width: double.infinity,
                 height: 55,
                 child: ElevatedButton(
                   onPressed: () {
-                    // 2. GANTI DummyHomePage() menjadi HomePage()
-                    // Pastikan nama class di file home_page.dart adalah 'HomePage'
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -189,7 +195,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
+
                 const SizedBox(height: 25),
+
                 Row(
                   children: [
                     _buildSocialButton("Google", Icons.g_mobiledata),
@@ -201,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 40),
 
-              // --- FOOTER SWITCHER ---
+              // --- SWITCH LOGIN / REGISTER ---
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -232,6 +240,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
+
               const SizedBox(height: 20),
             ],
           ),
@@ -240,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // --- HELPER WIDGETS ---
+  // --- TEXTFIELD ---
   Widget _buildTextField({
     required String label,
     required String hint,
@@ -285,6 +294,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  // --- SOCIAL BUTTON ---
   Widget _buildSocialButton(String label, IconData icon) {
     return Expanded(
       child: InkWell(

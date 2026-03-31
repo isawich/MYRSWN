@@ -6,6 +6,7 @@ import 'profile.dart';
 import 'notification.dart';
 import 'all_services_page.dart';
 import 'appointments.dart';
+import 'doctor_schedule.dart';
 
 // --- MAIN SCREEN (Scaffold Wrapper) ---
 class MainScreen extends StatefulWidget {
@@ -191,6 +192,26 @@ class HomePageContent extends StatelessWidget {
                   "Doctor's\nSchedule",
                   AppColors.menuPinkBg,
                   AppColors.primaryMaroon,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        transitionDuration: const Duration(
+                          milliseconds: 300,
+                        ), // 🔥 penting
+                        pageBuilder: (_, __, ___) => const DoctorSchedulePage(),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return FadeTransition(
+                            opacity: CurvedAnimation(
+                              parent: animation,
+                              curve: Curves.easeIn,
+                            ),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  },
                 ),
                 _buildMenuItem(
                   Icons.phone_in_talk,
@@ -274,7 +295,6 @@ class HomePageContent extends StatelessWidget {
                 return _buildNewsCard(imgPath, index);
               },
             ),
-            _buildHorizontalLine(),
 
             // 8. FAQ HEADER
             Row(
@@ -375,7 +395,7 @@ class HomePageContent extends StatelessWidget {
             const SizedBox(width: 8),
 
             Text(
-              "See More",
+              "View All",
               style: GoogleFonts.poppins(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
